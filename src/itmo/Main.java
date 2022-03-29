@@ -7,8 +7,6 @@ import itmo.minimizers.GoldenRatioMinimizer;
 import itmo.minimizers.Minimizer;
 import itmo.minimizers.ParabolaMinimizer;
 
-import java.util.Arrays;
-
 public class Main {
 
     /**
@@ -25,8 +23,13 @@ public class Main {
     private static final Minimizer brentMinimizer = new BrentMinimizer();
 
     public static void main(String[] args) {
-        for (double epsilon = 1; epsilon > 1E-7; epsilon /= 10) {
-            Interval interval = dichotomyMinimizer.minimize(oracle, epsilon, 6, 10);
+        testMinimizer(dichotomyMinimizer);
+        testMinimizer(goldenRatioMinimizer);
+    }
+
+    private static void testMinimizer(Minimizer minimizer) {
+        for (double epsilon = 1E-7; epsilon >= 1E-7; epsilon /= 10) {
+            Interval interval = minimizer.minimize(oracle, epsilon, 6, 10);
             System.out.println(interval);
         }
     }
