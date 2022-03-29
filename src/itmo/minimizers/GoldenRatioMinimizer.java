@@ -31,8 +31,7 @@ public class GoldenRatioMinimizer implements Minimizer {
                 f2 = oracle.askValue(x2);
             }
         }
-        System.out.printf("Golden Ration took %d iterations and asked the Oracle %d times\n",
-                iterations, iterations + 2);
+        System.out.printf("Golden Ration took %d iterations\n", iterations);
         return new Interval(a, b);
     }
 }

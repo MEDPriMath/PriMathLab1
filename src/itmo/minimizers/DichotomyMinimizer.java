@@ -21,7 +21,7 @@ public class DichotomyMinimizer implements Minimizer {
                 a = x1;
             }
         }
-        System.out.printf("Dichotomy took %d iterations and asked the Oracle %d times\n", iterations, iterations * 2);
+        System.out.printf("Dichotomy took %d iterations\n", iterations);
         return new Interval(a, b);
     }
 }

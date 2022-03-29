@@ -25,12 +25,22 @@ public class Main {
     public static void main(String[] args) {
         testMinimizer(dichotomyMinimizer);
         testMinimizer(goldenRatioMinimizer);
+        testMinimizer(fibonacciMinimizer);
+        testMinimizer(parabolaMinimizer);
+        testMinimizer(brentMinimizer);
     }
 
     private static void testMinimizer(Minimizer minimizer) {
-        for (double epsilon = 1E-7; epsilon >= 1E-7; epsilon /= 10) {
-            Interval interval = minimizer.minimize(oracle, epsilon, 6, 10);
-            System.out.println(interval);
+        try {
+            for (double epsilon = 1E-7; epsilon >= 1E-7; epsilon /= 10) {
+                CountedOracle countedOracle = new CountedOracle(oracle);
+                Interval interval = minimizer.minimize(countedOracle, epsilon, 6, 10);
+                System.out.printf("Found interval: %s, asked the Oracle: %d times\n",
+                        interval,
+                        countedOracle.getTimesUsed());
+            }
+        } catch (Exception e) {
+            System.out.println(e.getClass().getSimpleName());
         }
     }
 }
