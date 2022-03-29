@@ -1,5 +1,6 @@
 package itmo.minimizers;
 
+import itmo.Interval;
 import itmo.Oracle;
 
 public interface Minimizer {
@@ -11,5 +12,5 @@ public interface Minimizer {
      * @param b правая граница минимизации
      * @return отрезок, в котором лежит точка минимум функции
      */
-    double[] minimize(Oracle oracle, double epsilon, double a, double b);
+    Interval minimize(Oracle oracle, double epsilon, double a, double b);
 }

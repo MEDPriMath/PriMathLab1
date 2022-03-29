@@ -21,8 +21,8 @@ public class Main {
 
     public static void main(String[] args) {
         for (double epsilon = 1; epsilon > 1E-7; epsilon /= 10) {
-            double[] range = dichotomyMinimizer.minimize(oracle, epsilon, 6, 10);
-            System.out.println(Arrays.toString(range));
+            Interval interval = dichotomyMinimizer.minimize(oracle, epsilon, 6, 10);
+            System.out.println(interval);
         }
     }
 }
