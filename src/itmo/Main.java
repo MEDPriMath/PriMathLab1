@@ -11,6 +11,11 @@ import java.util.Arrays;
 
 public class Main {
 
+    /**
+     * Поменяешь main
+     * мать сгорит
+     */
+
     private static final Oracle oracle = (x) -> Math.log(x * x) + 1 - Math.sin(x);
 
     private static final Minimizer dichotomyMinimizer = new DichotomyMinimizer();
