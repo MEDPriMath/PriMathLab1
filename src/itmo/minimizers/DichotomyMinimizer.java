@@ -4,9 +4,6 @@ import itmo.Interval;
 import itmo.Oracle;
 import itmo.OracleProbe;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class DichotomyMinimizer extends MinimizerBase {
 
     @Override
@@ -25,6 +22,7 @@ public class DichotomyMinimizer extends MinimizerBase {
             } else {
                 a = p1.getX();
             }
+            reportInterval(a, b);
         }
 
         return getLastInterval();
