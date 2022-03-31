@@ -7,6 +7,41 @@ import java.util.Vector;
 
 public class FibonacciMinimizer implements Minimizer {
 
+    /**
+     * This class makes process of swap and calculating easier
+     */
+    private class Point{
+        private Double x;
+        private Double value;
+        private final Oracle oracle;
+
+        public Point(Double x, Double value, Oracle oracle){
+            this.x = x;
+            this.value = value;
+            this.oracle = oracle;
+        }
+
+        public Point(double x, Oracle oracle){
+            this.x = x;
+            this.oracle = oracle;
+        }
+
+        public Double getX() {
+            return x;
+        }
+
+        public Double getValue() {
+            if (value == null)
+                value = oracle.askValue(x);
+            return value;
+        }
+
+        public void setX(double x){
+            this.x = x;
+            value = null;
+        }
+    }
+
     private static final Vector<Long> memory = new Vector<>();
 
     /**
@@ -42,76 +77,42 @@ public class FibonacciMinimizer implements Minimizer {
     @Override
     public Interval minimize(Oracle oracle, double epsilon, double a, double b) {
         int n = 0;
-        while (fibonacci(n) < Math.floor((b - a) / epsilon)){
+        while (fibonacci(n) <= Math.floor((b - a) / epsilon)){
             ++n;
         }
 
-        double x1 = a + ((double) fibonacci(n - 2) / fibonacci(n)) * (b - a);
-        double x2 = b - x1 + a;
+        Point x1 = new Point(a + ((double) fibonacci(n - 2) / fibonacci(n)) * (b - a), oracle);
+        Point x2 = new Point(b - x1.getX() + a, oracle);
 
-
-        if (x2 < x1){
-            double t = x1;
+        if (x2.getX() < x1.getX()){
+            Point t = x1;
             x1 = x2;
             x2 = t;
         }
 
-        boolean x1Bool = false;
-        boolean x2Bool = false;
-
-        double x1Val = oracle.askValue(x1);
-        double x2Val = oracle.askValue(x2);
-
         for (int i = 0; i < n; ++i){
 
-            if (x1Bool)
-                x1Val = oracle.askValue(x1);
-            if (x2Bool)
-                x2Val = oracle.askValue(x2);
-
-            if (x1Val < x2Val){
-                b = x2;
-                x2 = b - x1 + a;
-                if (x2 < x1){
-                    double t = x1;
+            if (x1.getValue() < x2.getValue()){
+                b = x2.getX();
+                x2.setX(b - x1.getX() + a);
+                if (x2.getX() < x1.getX()) {
+                    Point t = x1;
                     x1 = x2;
                     x2 = t;
-
-                    t = x1Val;
-                    x1Val = x2Val;
-                    x2Val = t;
-                    x1Bool = true;
-                    x2Bool = false;
-                } else {
-                    x1Bool = false;
-                    x2Bool = true;
                 }
             } else {
-                a = x1;
-                x1 = b - x2 + a;
-                if (x2 < x1){
-                    double t = x1;
+                a = x1.getX();
+                x1.setX(b - x2.getX() + a);
+                if (x2.getX() < x1.getX()) {
+                    Point t = x1;
                     x1 = x2;
                     x2 = t;
-
-                    t = x1Val;
-                    x1Val = x2Val;
-                    x2Val = t;
-                    x1Bool = false;
-                    x2Bool = true;
-                } else {
-                    x1Bool = true;
-                    x2Bool = false;
                 }
             }
         }
 
-        return new Interval(a, b);
-    }
+        System.out.printf("Fibonacci took %d iterations\n", n);
 
-    public static void main(String[] args){
-        FibonacciMinimizer fibonacciMinimizer = new FibonacciMinimizer();
-        //fibonacciMinimizer.minimize(null, 1, 1, 7);
-        System.out.println(fibonacciMinimizer.fibonacci(50));
+        return new Interval(a, b);
     }
 }
