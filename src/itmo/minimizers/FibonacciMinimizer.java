@@ -70,7 +70,7 @@ public class FibonacciMinimizer implements Minimizer {
      * @param n Fibonacci number index
      * @return nth Fibonacci number
      */
-    private static long fibonacci(int n){
+    protected static long fibonacci(int n){
         if (n < 0) {
             throw new IllegalArgumentException("Incorrect n for Fibonacci number");
         }

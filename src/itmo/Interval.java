@@ -22,7 +22,7 @@ public class Interval {
 
     @Override
     public String toString() {
-        return String.format("(%f; %f)", a, b);
+        return String.format("(%e; %e)", a, b);
     }
 
     @Override
