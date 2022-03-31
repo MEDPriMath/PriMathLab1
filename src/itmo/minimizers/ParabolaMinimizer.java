@@ -2,51 +2,49 @@ package itmo.minimizers;
 
 import itmo.Interval;
 import itmo.Oracle;
+import itmo.OracleProbe;
 
 public class ParabolaMinimizer implements Minimizer {
     @Override
-    public Interval minimize(Oracle oracle, double epsilon, double left, double right) {
-        double fLeft = oracle.askValue(left);
-        double fRight = oracle.askValue(right);
-        double mid = (left + right) / 2;
-        double fMid = oracle.askValue(mid);
-        int iterations = 0;
+    public Interval minimize(Oracle oracle, double epsilon, double a, double b) {
+        var p1 = new OracleProbe(oracle, a);
+        var p2 = new OracleProbe(oracle, (a + b) / 2);
+        var p3 = new OracleProbe(oracle, b);
 
-        while (right - left > epsilon) {
-            var u = mid -
-                    (Math.pow((mid - left), 2) * (fMid - fRight) - Math.pow((mid - right), 2) * (fMid - fLeft))
-                    / (2 * ((mid - left) * (fMid - fRight) - (mid - right) * (fMid - fLeft)) );
-            if (u > right || u < left) {
-                throw new ArithmeticException("Meme happened");
-            }
-            double fu = oracle.askValue(u);
+        var u = new OracleProbe(oracle);
 
-            if (u < mid) {
-                var temp = mid;
-                mid = u;
-                u = temp;
-                temp = fMid;
-                fMid = fu;
-                fu = temp;
+        int iteration = 0;
+        while (p3.getX() - p1.getX() > epsilon) {
+            u.makeProbe(parabolaVertexX(
+                    p1.getX(), p1.getValue(), p2.getX(), p2.getValue(), p3.getX(), p3.getValue()
+            ));
+            if (u.getX() < p1.getX() || p3.getX() < u.getX()) {
+                throw new IllegalStateException("Meme happened");
             }
 
-            if (fu < fMid) {
-                left = mid;
-                fLeft = fMid;
-                mid = u;
-                fMid = fu;
-            } else if (fu > fMid) {
-                right = u;
-                fRight = fu;
+            if (u.getX() < p2.getX())
+                u.swap(p2);
+
+            if (p2.getValue() > u.getValue()) {
+                p1.set(p2);
+                p2.set(u);
+            } else if (p2.getValue() < u.getValue()) {
+                p3.set(u);
             } else {
-                left = mid;
-                right = u;
-                mid = (left + right) / 2;
-                fMid = oracle.askValue(mid);
+                p1.set(p2);
+                p3.set(u);
             }
             iterations++;
         }
-        System.out.format("Parabola took %d iterations\n", iterations);
-        return new Interval(left, right);
+
+        System.out.format("Parabola took %d iterations\n", iteration);
+        return new Interval(p1.getX(), p3.getX());
+    }
+
+    private static double parabolaVertexX(double x1, double y1, double x2, double y2, double x3, double y3) {
+        double a = (x1 * (y2 - y3) - x2 * (y1 - y3) + x3 * (y1 - y2))
+                / (x2 - x1) / (x3 * (x3 - x1 - x2) + x1 * x2);
+        double b = (y2 - y1) / (x2 - x1) - a * (x1 + x2);
+        return -b / 2 / a;
     }
 }

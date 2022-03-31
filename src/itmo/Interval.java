@@ -1,40 +1,40 @@
 package itmo;
 
+import java.util.Objects;
+
 public class Interval {
-    private Double minimum = null;
-    private Double maximum = null;
+    public final double a, b;
 
-    public Interval(double minimum, double maximum){
-        setMinimum(minimum);
-        setMaximum(maximum);
+    public Interval(double a, double b) {
+        if (a > b)
+            throw new IllegalArgumentException("'a' must be less than 'b'");
+        this.a = a;
+        this.b = b;
     }
 
-    public void setMinimum(double minimum) {
-        if (maximum != null && minimum > maximum)
-            throw new ArithmeticException("min greater than max");
-        this.minimum = minimum;
+    public double length() {
+        return this.b - this.a;
     }
 
-    public void setMaximum(double maximum) {
-        if (minimum != null && minimum > maximum)
-            throw new ArithmeticException("min greater than max");
-        this.maximum = maximum;
-    }
-
-    public double getMinimum() {
-        return minimum;
-    }
-
-    public double getMaximum() {
-        return maximum;
-    }
-
-    public double length(){
-        return this.maximum - this.minimum;
+    public boolean contains(double x) {
+        return a <= x && x <= b;
     }
 
     @Override
     public String toString() {
-        return "(" + minimum + "; " + maximum + ")";
+        return String.format("(%e; %e)", a, b);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Interval interval = (Interval) o;
+        return Double.compare(interval.a, a) == 0 && Double.compare(interval.b, b) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(a, b);
     }
 }
