@@ -3,6 +3,8 @@ package itmo.minimizers;
 import itmo.Interval;
 import itmo.Oracle;
 
+import java.util.List;
+
 public interface Minimizer {
     /**
      * Находит отрезок, в котором лежит точка минимум функции
@@ -13,4 +15,5 @@ public interface Minimizer {
      * @return отрезок, в котором лежит точка минимум функции
      */
     Interval minimize(Oracle oracle, double epsilon, double a, double b);
+    List<Interval> getLastIntervalList();
 }

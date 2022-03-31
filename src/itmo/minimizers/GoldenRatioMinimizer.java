@@ -29,4 +29,9 @@ public class GoldenRatioMinimizer implements Minimizer {
         System.out.printf("Golden Ration took %d iterations\n", iterations);
         return new Interval(a, b);
     }
+
+    @Override
+    public String toString() {
+        return "Golden Ratio Minimizer";
+    }
 }

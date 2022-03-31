@@ -47,4 +47,9 @@ public class ParabolaMinimizer implements Minimizer {
         double b = (y2 - y1) / (x2 - x1) - a * (x1 + x2);
         return -b / 2 / a;
     }
+
+    @Override
+    public String toString() {
+        return "Parabola Minimizer";
+    }
 }

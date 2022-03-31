@@ -76,4 +76,9 @@ public class BrentMinimizer implements Minimizer {
         System.out.format("Brent took %d iterations\n", iterations);
         return new Interval(a, b);
     }
+
+    @Override
+    public String toString() {
+        return "Brent Minimizer";
+    }
 }

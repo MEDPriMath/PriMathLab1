@@ -81,4 +81,9 @@ public class FibonacciMinimizer implements Minimizer {
 
         return fibMeme.get(n);
     }
+
+    @Override
+    public String toString() {
+        return "Fibonacci Minimizer";
+    }
 }

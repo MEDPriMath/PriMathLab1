@@ -14,6 +14,7 @@ public class Main {
      * мать сгорит
      */
 
+    public static final double TRUE_MINIMUM = 7.58722843081143837616523170635146306196;
     private static final Oracle oracle = (x) -> Math.log(x * x) + 1 - Math.sin(x);
 
     private static final Minimizer dichotomyMinimizer = new DichotomyMinimizer();
