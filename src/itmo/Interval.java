@@ -29,6 +29,10 @@ public class Interval {
         return maximum;
     }
 
+    public double length(){
+        return this.maximum - this.minimum;
+    }
+
     @Override
     public String toString() {
         return "(" + minimum + "; " + maximum + ")";
