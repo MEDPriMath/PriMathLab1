@@ -6,6 +6,9 @@ public class OracleProbe {
     private double value;
 
     public OracleProbe(Oracle oracle) {
+        if (oracle == null) {
+            throw new NullPointerException();
+        }
         this.oracle = oracle;
     }
 
@@ -21,14 +24,14 @@ public class OracleProbe {
     }
 
     public void set(OracleProbe other) {
-        if (this.oracle.equals(other.oracle))
+        if (!this.oracle.equals(other.oracle))
             throw new IllegalStateException("Cannot clone OracleProbe from probe with another oracle");
         this.x = other.x;
         this.value = other.value;
     }
 
     public void swap(OracleProbe other) {
-        if (this.oracle.equals(other.oracle))
+        if (!this.oracle.equals(other.oracle))
             throw new IllegalStateException("Cannot swap OracleProbes with different oracles");
 
         double tmp = this.x;
