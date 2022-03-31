@@ -26,7 +26,9 @@ public class CSVReportMain {
         for (int i = 1; i <= maxIter; i++)
             csvTable.addLine(String.valueOf(i));
 
-        for (Minimizer minimizer : MINIMIZERS) {
+        for (int j = 1; j <= MINIMIZERS.size(); j++) {
+            Minimizer minimizer = MINIMIZERS.get(j - 1);
+
             List<String> header = csvTable.getHeader();
             header.add(minimizer.getClass().getSimpleName());
             csvTable.setHeader(header);
@@ -43,7 +45,8 @@ public class CSVReportMain {
                 lenTable.addLine(String.valueOf(i), String.valueOf(interval.length()));
                 abTable.addLine(String.valueOf(i), String.valueOf(interval.a), String.valueOf(interval.b));
 
-                csvTable.addElements(i - 1, String.valueOf(interval.length()));
+
+                csvTable.addElements(i - 1, j, String.valueOf(interval.length()));
             }
 
             FileWriter lengthFile = new FileWriter(Path.of("report", minimizer.getClass().getSimpleName(), "len.csv").toFile());

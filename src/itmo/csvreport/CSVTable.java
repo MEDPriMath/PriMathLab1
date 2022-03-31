@@ -39,6 +39,23 @@ public class CSVTable {
         lines.set(index, newLine);
     }
 
+    public void addElements(int indexRow, int indexCol, String... strings){
+        while (lines.size() <= indexRow)
+            lines.add(null);
+        List<String> newLine = new ArrayList<>();
+        if (lines.get(indexRow) == null){
+            newLine = new ArrayList<>();
+        } else {
+            newLine = new ArrayList<>(lines.get(indexRow));
+        }
+
+        while (newLine.size() < indexCol)
+            newLine.add(null);
+
+        newLine.addAll(indexCol, List.of(strings));
+        lines.set(indexRow, newLine);
+    }
+
     public void setDelimiter(char delimiter) {
         this.delimiter = delimiter;
     }
@@ -59,12 +76,13 @@ public class CSVTable {
         lines.forEach(line -> {
             int width = header.size();
             for (String value : line) {
-                stringBuilder.append(value).append(delimiter);
+                if (value == null)
+                    stringBuilder.append(delimiter);
+                else
+                    stringBuilder.append(value).append(delimiter);
                 width--;
             }
-            for (int i = width; i > 0; i--) {
-                stringBuilder.append(delimiter);
-            }
+            stringBuilder.append(String.valueOf(delimiter).repeat(Math.max(0, width)));
             stringBuilder.append("\n");
         });
 
