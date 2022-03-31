@@ -7,6 +7,8 @@ import itmo.minimizers.GoldenRatioMinimizer;
 import itmo.minimizers.Minimizer;
 import itmo.minimizers.ParabolaMinimizer;
 
+import java.util.List;
+
 public class Main {
 
     /**
@@ -14,34 +16,35 @@ public class Main {
      * мать сгорит
      */
 
-    public static final double TRUE_MINIMUM = 7.58722843081143837616523170635146306196;
-    private static final Oracle oracle = (x) -> Math.log(x * x) + 1 - Math.sin(x);
-
-    private static final Minimizer dichotomyMinimizer = new DichotomyMinimizer();
-    private static final Minimizer goldenRatioMinimizer = new GoldenRatioMinimizer();
-    private static final Minimizer fibonacciMinimizer = new FibonacciMinimizer();
-    private static final Minimizer parabolaMinimizer = new ParabolaMinimizer();
-    private static final Minimizer brentMinimizer = new BrentMinimizer();
+    public static final double MINIMUM = 7.58722843081143837616523170635146306196;
+    public static final Oracle ORACLE = (x) -> Math.log(x * x) + 1 - Math.sin(x);
+    public static final List<Minimizer> MINIMIZERS = List.of(
+            new DichotomyMinimizer(),
+            new GoldenRatioMinimizer(),
+            new FibonacciMinimizer(),
+            new ParabolaMinimizer(),
+            new BrentMinimizer());
 
     public static void main(String[] args) {
-        testMinimizer(dichotomyMinimizer);
-        testMinimizer(goldenRatioMinimizer);
-        testMinimizer(fibonacciMinimizer);
-        testMinimizer(parabolaMinimizer);
-        testMinimizer(brentMinimizer);
+        for (Minimizer minimizer : MINIMIZERS) {
+            testMinimizer(minimizer);
+        }
     }
 
     private static void testMinimizer(Minimizer minimizer) {
         try {
             for (double epsilon = 1E-7; epsilon >= 1E-7; epsilon /= 10) {
-                CountedOracle countedOracle = new CountedOracle(oracle);
+                CountedOracle countedOracle = new CountedOracle(ORACLE);
                 Interval interval = minimizer.minimize(countedOracle, epsilon, 6, 10);
-                System.out.printf("Found interval: %s, asked the Oracle: %d times\n",
+                var intervals = minimizer.getLastIntervalList();
+                System.out.printf("Found interval: %s, asked the Oracle: %d times, it took %d iterations\n",
                         interval,
-                        countedOracle.getTimesUsed());
+                        countedOracle.getTimesUsed(),
+                        intervals.size());
             }
         } catch (Exception e) {
             System.out.println(e.getClass().getSimpleName());
+            e.printStackTrace();
         }
     }
 }
