@@ -2,6 +2,7 @@ package itmo.minimizers;
 
 import itmo.Interval;
 import itmo.oracle.Oracle;
+import itmo.oracle.OracleProbe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,47 +37,23 @@ public class FibonacciMinimizer extends MinimizerBase {
     Interval calcMinimize(Oracle oracle, double epsilon, double a, double b) {
         int n = 0;
         while (fibonacci(n) <= (b - a) / epsilon) {
-            ++n;
+            n++;
         }
 
-        double x1 = a + ((double) fibonacci(n) / (double) fibonacci(n + 2)) * (b - a);
-        double x2 = b - x1 + a;
-
-        if (x2 < x1) {
-            double t = x1;
-            x1 = x2;
-            x2 = t;
-        }
-
-        double f1 = oracle.askValue(x1);
-        double f2 = oracle.askValue(x2);
+        var p1 = new OracleProbe(oracle, a + ((double) fibonacci(n) / (double) fibonacci(n + 2)) * (b - a));
+        var p2 = new OracleProbe(oracle, a + (b - p1.getX()));
 
         reportInterval(a, b);
         for (int i = 0; i < n; i++) {
-            if (f1 < f2) {
-                b = x2;
-                x2 = a + b - x1;
-                f2 = oracle.askValue(x2);
-                if (x2 < x1) {
-                    double t = x1;
-                    x1 = x2;
-                    x2 = t;
-                    t = f1;
-                    f1 = f2;
-                    f2 = t;
-                }
+            if (p1.getValue() < p2.getValue()) {
+                b = p2.getX();
+                p2.makeProbe(a + b - p1.getX());
             } else {
-                a = x1;
-                x1 = a + b - x2;
-                f1 = oracle.askValue(x1);
-                if (x2 < x1) {
-                    double t = x1;
-                    x1 = x2;
-                    x2 = t;
-                    t = f1;
-                    f1 = f2;
-                    f2 = t;
-                }
+                a = p1.getX();
+                p1.makeProbe(a + b - p2.getX());
+            }
+            if (p2.getX() < p1.getX()) {
+                p1.swap(p2);
             }
             reportInterval(a, b);
         }

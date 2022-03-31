@@ -17,6 +17,7 @@ public class DichotomyMinimizer extends MinimizerBase {
             p2.makeProbe((a + b) / 2 + epsilon * 0.4);
             if (p1.getValue() == p2.getValue()) {
                 reportInterval(p1.getX(), p2.getX());
+                break;
             } else if (p1.getValue() < p2.getValue()) {
                 b = p2.getX();
             } else {
