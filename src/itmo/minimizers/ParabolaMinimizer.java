@@ -13,7 +13,7 @@ public class ParabolaMinimizer implements Minimizer {
 
         var u = new OracleProbe(oracle);
 
-        int iteration = 0;
+        int iterations = 0;
         while (p3.getX() - p1.getX() > epsilon) {
             u.makeProbe(parabolaVertexX(
                     p1.getX(), p1.getValue(), p2.getX(), p2.getValue(), p3.getX(), p3.getValue()
@@ -37,7 +37,7 @@ public class ParabolaMinimizer implements Minimizer {
             iterations++;
         }
 
-        System.out.format("Parabola took %d iterations\n", iteration);
+        System.out.format("Parabola took %d iterations\n", iterations);
         return new Interval(p1.getX(), p3.getX());
     }
 
