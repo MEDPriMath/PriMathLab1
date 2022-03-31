@@ -17,15 +17,15 @@ public class ItmoTest {
     private static final Minimizer brentMinimizer = new BrentMinimizer();
 
     public static void main(String[] args) {
-//        testCases.add(new TestCase((x) -> Math.log(x * x) + 1 - Math.sin(x), 6, 10, 1E-7, "ln(x^2)+1-sin(x)"));
+        testCases.add(new TestCase((x) -> Math.log(x * x) + 1 - Math.sin(x), 6, 10, 1E-7, "ln(x^2)+1-sin(x)"));
         testCases.add(new TestCase((x) -> x * x, -10, 150, 1E-7, "x ^ 2"));
         testCases.add(new TestCase((x) -> x * x * x - x * x + 1, 0, 10, 1E-7, "x ^ 3 - x ^ 2 + 1"));
 
-        minimizers.add(dichotomyMinimizer);
-        minimizers.add(goldenRatioMinimizer);
+//        minimizers.add(dichotomyMinimizer);
+//        minimizers.add(goldenRatioMinimizer);
         minimizers.add(fibonacciMinimizer);
-        minimizers.add(parabolaMinimizer);
-        minimizers.add(brentMinimizer);
+//        minimizers.add(parabolaMinimizer);
+//        minimizers.add(brentMinimizer);
 
         testCases.forEach(testCase -> {
             minimizers.forEach(minimizer -> testMinimizer(minimizer, testCase));
