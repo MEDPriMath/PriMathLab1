@@ -34,24 +34,25 @@ public class CSVReportMain {
             List<Interval> lastIntervalList = minimizer.getLastIntervalList();
             Path.of("report", minimizer.getClass().getSimpleName()).toFile().mkdir();
 
-            FileWriter lengthFile = new FileWriter(Path.of("report", minimizer.getClass().getSimpleName(), "len.csv").toFile());
-            StringBuilder lengthStringBuilder = new StringBuilder();
-
-            FileWriter aAndBFile = new FileWriter(Path.of("report", minimizer.getClass().getSimpleName(), "aAndB.csv").toFile());
-            StringBuilder aAndBStringBuilder = new StringBuilder();
+            CSVTable lenTable = new CSVTable(Arrays.asList("index", "length"));
+            CSVTable abTable = new CSVTable(Arrays.asList("index", "length"));
 
             for (int i = 1; i <= lastIntervalList.size(); i++) {
                 Interval interval = lastIntervalList.get(i - 1);
-                lengthStringBuilder.append(i).append(";").append(interval.length()).append("\n");
-                aAndBStringBuilder.append(i).append(";").append(interval.a).append(";").append(interval.b).append("\n");
+
+                lenTable.addLine(String.valueOf(i), String.valueOf(interval.length()));
+                abTable.addLine(String.valueOf(i), String.valueOf(interval.a), String.valueOf(interval.b));
 
                 csvTable.addElements(i - 1, String.valueOf(interval.length()));
             }
 
-            lengthFile.write(lengthStringBuilder.toString().replace('.', ','));
+            FileWriter lengthFile = new FileWriter(Path.of("report", minimizer.getClass().getSimpleName(), "len.csv").toFile());
+            FileWriter aAndBFile = new FileWriter(Path.of("report", minimizer.getClass().getSimpleName(), "aAndB.csv").toFile());
+
+            lengthFile.write(lenTable.toCSV());
             lengthFile.close();
 
-            aAndBFile.write(aAndBStringBuilder.toString().replace('.', ','));
+            aAndBFile.write(abTable.toCSV());
             aAndBFile.close();
         }
 
