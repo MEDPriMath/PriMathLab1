@@ -68,6 +68,6 @@ public class CSVTable {
             stringBuilder.append("\n");
         });
 
-        return stringBuilder.toString().replace('.',',');
+        return stringBuilder.toString().replace('.',',').replaceAll(";\n","\n");
     }
 }
