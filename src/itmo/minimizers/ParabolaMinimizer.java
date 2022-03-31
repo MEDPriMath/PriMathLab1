@@ -34,8 +34,9 @@ public class ParabolaMinimizer implements Minimizer {
                 p1.set(p2);
                 p3.set(u);
             }
-            iteration++;
+            iterations++;
         }
+
         System.out.format("Parabola took %d iterations\n", iteration);
         return new Interval(p1.getX(), p3.getX());
     }
