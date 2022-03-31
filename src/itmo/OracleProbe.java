@@ -21,10 +21,23 @@ public class OracleProbe {
     }
 
     public void set(OracleProbe other) {
-        if (this.oracle != other.oracle)
+        if (this.oracle.equals(other.oracle))
             throw new IllegalStateException("Cannot clone OracleProbe from probe with another oracle");
+        this.x = other.x;
+        this.value = other.value;
+    }
+
+    public void swap(OracleProbe other) {
+        if (this.oracle.equals(other.oracle))
+            throw new IllegalStateException("Cannot swap OracleProbes with different oracles");
+
+        double tmp = this.x;
         this.x = other.getX();
-        this.value = other.getValue();
+        other.x = tmp;
+
+        tmp = this.value;
+        this.value = other.value;
+        other.value = tmp;
     }
 
     public double getX() {
