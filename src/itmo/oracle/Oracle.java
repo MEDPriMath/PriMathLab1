@@ -1,4 +1,4 @@
-package itmo;
+package itmo.oracle;
 
 public interface Oracle {
     /**

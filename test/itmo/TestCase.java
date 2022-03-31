@@ -1,5 +1,7 @@
 package itmo;
 
+import itmo.oracle.Oracle;
+
 public class TestCase {
     private final Oracle oracle;
     private final double a;

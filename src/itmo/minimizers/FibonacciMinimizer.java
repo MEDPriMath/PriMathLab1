@@ -1,7 +1,7 @@
 package itmo.minimizers;
 
 import itmo.Interval;
-import itmo.Oracle;
+import itmo.oracle.Oracle;
 
 import java.util.ArrayList;
 import java.util.List;

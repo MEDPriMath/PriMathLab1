@@ -6,6 +6,8 @@ import itmo.minimizers.FibonacciMinimizer;
 import itmo.minimizers.GoldenRatioMinimizer;
 import itmo.minimizers.Minimizer;
 import itmo.minimizers.ParabolaMinimizer;
+import itmo.oracle.CountedOracle;
+import itmo.oracle.Oracle;
 
 import java.util.List;
 

@@ -1,8 +1,8 @@
 package itmo.minimizers;
 
 import itmo.Interval;
-import itmo.Oracle;
-import itmo.OracleProbe;
+import itmo.oracle.Oracle;
+import itmo.oracle.OracleProbe;
 
 public class ParabolaMinimizer extends MinimizerBase {
     private static double parabolaVertexX(double x1, double y1, double x2, double y2, double x3, double y3) {

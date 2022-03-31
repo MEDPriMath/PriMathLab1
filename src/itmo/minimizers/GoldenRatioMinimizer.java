@@ -1,8 +1,8 @@
 package itmo.minimizers;
 
 import itmo.Interval;
-import itmo.Oracle;
-import itmo.OracleProbe;
+import itmo.oracle.Oracle;
+import itmo.oracle.OracleProbe;
 
 public class GoldenRatioMinimizer extends MinimizerBase {
 

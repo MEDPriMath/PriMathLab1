@@ -1,4 +1,4 @@
-package itmo;
+package itmo.oracle;
 
 public class OracleProbe {
     private final Oracle oracle;

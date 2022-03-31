@@ -1,9 +1,10 @@
 package itmo.minimizers;
 
 import itmo.Interval;
-import itmo.Oracle;
+import itmo.oracle.Oracle;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class BrentMinimizer extends MinimizerBase {
 
