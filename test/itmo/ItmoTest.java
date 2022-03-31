@@ -51,7 +51,7 @@ public class ItmoTest {
         try {
             CountedOracle countedOracle = new CountedOracle(testCase.getOracle());
             Interval interval = minimizer.minimize(countedOracle, testCase.getEpsilon(), testCase.getA(), testCase.getB());
-            double minX = (interval.getMinimum() + interval.getMaximum()) / 2;
+            double minX = (interval.a + interval.b) / 2;
             System.out.printf("Minimizer %s; testCase: %s\nInterval: %s\nMin at point: %f",
                     minimizer.getClass().getSimpleName(),
                     testCase.getDescription(),
@@ -59,8 +59,8 @@ public class ItmoTest {
                     minX
             );
             Assertions.assertTrue(interval.length() < testCase.getEpsilon());
-            Assertions.assertTrue(interval.getMinimum() <= minX);
-            Assertions.assertTrue(interval.getMaximum() >= minX);
+            Assertions.assertTrue(interval.a <= minX);
+            Assertions.assertTrue(interval.b >= minX);
         } catch (Exception e) {
             System.out.println(e.getClass().getSimpleName());
             System.out.println(e.getMessage());
