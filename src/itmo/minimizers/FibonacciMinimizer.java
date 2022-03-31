@@ -4,6 +4,7 @@ import itmo.Interval;
 import itmo.Oracle;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FibonacciMinimizer implements Minimizer {
 
@@ -40,38 +41,6 @@ public class FibonacciMinimizer implements Minimizer {
             this.x = x;
             value = null;
         }
-    }
-
-    private static final ArrayList<Long> memory = new ArrayList<>();
-
-    /**
-     * Return fibonacci n number
-     * n = 0; fib = 1
-     * n = 1; fib = 1
-     * n = 2; fib = 2
-     * n = 3; fib = 3
-     * n = 4; fib = 5
-     * ...
-     * @param n number of Fibonacci number
-     * @return Fibonacci number
-     */
-    private long fibonacci(int n){
-        if (n < 0)
-            throw new ArithmeticException("Incorrect n for Fibonacci number");
-
-        if (memory.size() > n && memory.get(n) != null)
-            return memory.get(n);
-
-        while (memory.size() < n + 1)
-            memory.add(null);
-
-        if (n == 0 || n == 1){
-            memory.set(n, 1L);
-            return 1;
-        }
-
-        memory.set(n, fibonacci(n - 1) + fibonacci(n - 2));
-        return memory.get(n);
     }
 
     @Override
@@ -114,5 +83,27 @@ public class FibonacciMinimizer implements Minimizer {
         System.out.printf("Fibonacci took %d iterations\n", n);
 
         return new Interval(a, b);
+    }
+
+    private static final ArrayList<Integer> fibMeme = new ArrayList<>(List.of(1, 1));
+    /**
+     * Return nth fibonacci number
+     * n = 0; fib = 1
+     * n = 1; fib = 1
+     * n = 2; fib = 2
+     * ...
+     * @param n Fibonacci number index
+     * @return nth Fibonacci number
+     */
+    private static long fibonacci(int n){
+        if (n < 0) {
+            throw new IllegalArgumentException("Incorrect n for Fibonacci number");
+        }
+
+        for (int i = fibMeme.size(); i < n; i++) {
+            fibMeme.add(fibMeme.get(i - 2) + fibMeme.get(i - 1));
+        }
+
+        return fibMeme.get(n);
     }
 }
