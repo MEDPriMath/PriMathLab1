@@ -5,13 +5,15 @@ public class TestCase {
     private final double a;
     private final double b;
     private final double epsilon;
+    private final double minX;
     private final String description;
 
-    public TestCase(Oracle oracle, double a, double b, double epsilon, String description){
+    public TestCase(Oracle oracle, double a, double b, double epsilon, double minX, String description){
         this.oracle = oracle;
         this.a = a;
         this.b = b;
         this.epsilon = epsilon;
+        this.minX = minX;
         this.description = description;
     }
 
@@ -33,6 +35,10 @@ public class TestCase {
 
     public String getDescription() {
         return description;
+    }
+
+    public double getMinX() {
+        return minX;
     }
 
     @Override
