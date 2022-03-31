@@ -55,10 +55,16 @@ public class CSVTable {
         StringBuilder stringBuilder = new StringBuilder();
         header.forEach(head -> stringBuilder.append(head).append(delimiter));
         stringBuilder.append("\n");
+
         lines.forEach(line -> {
-            line.forEach(value -> {
+            int width = header.size();
+            for (String value : line) {
                 stringBuilder.append(value).append(delimiter);
-            });
+                width--;
+            }
+            for (int i = width; i > 0; i--) {
+                stringBuilder.append(delimiter);
+            }
             stringBuilder.append("\n");
         });
 
