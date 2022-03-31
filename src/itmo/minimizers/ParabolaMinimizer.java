@@ -10,7 +10,7 @@ public class ParabolaMinimizer implements Minimizer {
         double fRight = oracle.askValue(right);
         double mid = (left + right) / 2;
         double fMid = oracle.askValue(mid);
-        int iteration = 0;
+        int iterations = 0;
 
         while (right - left > epsilon) {
             var u = mid -
@@ -44,9 +44,9 @@ public class ParabolaMinimizer implements Minimizer {
                 mid = (left + right) / 2;
                 fMid = oracle.askValue(mid);
             }
-            iteration++;
+            iterations++;
         }
-        System.out.format("Parabola took %d iterations\n", iteration);
+        System.out.format("Parabola took %d iterations\n", iterations);
         return new Interval(left, right);
     }
 }
