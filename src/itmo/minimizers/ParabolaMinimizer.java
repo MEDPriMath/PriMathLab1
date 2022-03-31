@@ -4,17 +4,24 @@ import itmo.Interval;
 import itmo.Oracle;
 import itmo.OracleProbe;
 
-public class ParabolaMinimizer implements Minimizer {
+public class ParabolaMinimizer extends MinimizerBase {
+    private static double parabolaVertexX(double x1, double y1, double x2, double y2, double x3, double y3) {
+        double a = (x1 * (y2 - y3) - x2 * (y1 - y3) + x3 * (y1 - y2))
+                / (x2 - x1) / (x3 * (x3 - x1 - x2) + x1 * x2);
+        double b = (y2 - y1) / (x2 - x1) - a * (x1 + x2);
+        return -b / 2 / a;
+    }
+
     @Override
-    public Interval minimize(Oracle oracle, double epsilon, double a, double b) {
+    public Interval calcMinimize(Oracle oracle, double epsilon, double a, double b) {
         var p1 = new OracleProbe(oracle, a);
         var p2 = new OracleProbe(oracle, (a + b) / 2);
         var p3 = new OracleProbe(oracle, b);
 
         var u = new OracleProbe(oracle);
 
-        int iterations = 0;
-        while (p3.getX() - p1.getX() > epsilon) {
+        reportInterval(p1.getX(), p3.getX());
+        while (getLastInterval().length() > epsilon) {
             u.makeProbe(parabolaVertexX(
                     p1.getX(), p1.getValue(), p2.getX(), p2.getValue(), p3.getX(), p3.getValue()
             ));
@@ -34,18 +41,10 @@ public class ParabolaMinimizer implements Minimizer {
                 p1.set(p2);
                 p3.set(u);
             }
-            iterations++;
+            reportInterval(p1.getX(), p3.getX());
         }
 
-        System.out.format("Parabola took %d iterations\n", iterations);
-        return new Interval(p1.getX(), p3.getX());
-    }
-
-    private static double parabolaVertexX(double x1, double y1, double x2, double y2, double x3, double y3) {
-        double a = (x1 * (y2 - y3) - x2 * (y1 - y3) + x3 * (y1 - y2))
-                / (x2 - x1) / (x3 * (x3 - x1 - x2) + x1 * x2);
-        double b = (y2 - y1) / (x2 - x1) - a * (x1 + x2);
-        return -b / 2 / a;
+        return getLastInterval();
     }
 
     @Override

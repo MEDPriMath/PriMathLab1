@@ -5,20 +5,20 @@ import itmo.Oracle;
 
 import java.util.*;
 
-public class BrentMinimizer implements Minimizer {
+public class BrentMinimizer extends MinimizerBase {
 
     private static final double K = (3 - Math.pow(5, 0.5)) / 2;
 
     @Override
-    public Interval minimize(Oracle oracle, double epsilon, double a, double b) {
+    public Interval calcMinimize(Oracle oracle, double epsilon, double a, double b) {
         double x, w, v;
         w = v = x = (a + b) / 2;
         double fx, fw, fv;
         fw = fv = fx = oracle.askValue(x);
         double g, d, e;
         d = e = b - a;
-        int iterations = 0;
-        while (b - a > epsilon) {
+        reportInterval(a, b);
+        while (getLastInterval().length() > epsilon) {
             g = e;
             e = d;
             double u;
@@ -70,11 +70,10 @@ public class BrentMinimizer implements Minimizer {
                     fv = fu;
                 }
             }
-            iterations++;
+            reportInterval(a, b);
         }
 
-        System.out.format("Brent took %d iterations\n", iterations);
-        return new Interval(a, b);
+        return getLastInterval();
     }
 
     @Override

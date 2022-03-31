@@ -4,18 +4,17 @@ import itmo.Interval;
 import itmo.Oracle;
 import itmo.OracleProbe;
 
-public class GoldenRatioMinimizer implements Minimizer {
+public class GoldenRatioMinimizer extends MinimizerBase {
 
     private static final double RATIO = 0.38196601125d;
 
     @Override
-    public Interval minimize(Oracle oracle, double epsilon, double a, double b) {
+    Interval calcMinimize(Oracle oracle, double epsilon, double a, double b) {
         var p1 = new OracleProbe(oracle, a + (b - a) * RATIO);
         var p2 = new OracleProbe(oracle, b - (b - a) * RATIO);
 
-        int iterations = 0;
-        while (b - a > epsilon) {
-            iterations++;
+        reportInterval(a, b);
+        while (getLastInterval().length() > epsilon) {
             if (p1.getValue() < p2.getValue()) {
                 b = p2.getX();
                 p2.set(p1);
@@ -25,9 +24,9 @@ public class GoldenRatioMinimizer implements Minimizer {
                 p1.set(p2);
                 p2.makeProbe(b - (b - a) * RATIO);
             }
+            reportInterval(a , b);
         }
-        System.out.printf("Golden Ration took %d iterations\n", iterations);
-        return new Interval(a, b);
+        return getLastInterval();
     }
 
     @Override
