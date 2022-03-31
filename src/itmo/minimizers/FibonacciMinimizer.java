@@ -3,7 +3,7 @@ package itmo.minimizers;
 import itmo.Interval;
 import itmo.Oracle;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class FibonacciMinimizer implements Minimizer {
 
@@ -42,7 +42,7 @@ public class FibonacciMinimizer implements Minimizer {
         }
     }
 
-    private static final Vector<Long> memory = new Vector<>();
+    private static final ArrayList<Long> memory = new ArrayList<>();
 
     /**
      * Return fibonacci n number
@@ -62,8 +62,10 @@ public class FibonacciMinimizer implements Minimizer {
         if (memory.size() > n && memory.get(n) != null)
             return memory.get(n);
 
-        if (memory.size() < n + 1)
-            memory.setSize(n + 1);
+        if (memory.size() < n + 1){
+            while (memory.size() < n + 1)
+                memory.add(null);
+        }
 
         if (n == 0 || n == 1){
             memory.set(n, 1L);
