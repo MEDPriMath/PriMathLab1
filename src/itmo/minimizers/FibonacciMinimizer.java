@@ -62,10 +62,8 @@ public class FibonacciMinimizer implements Minimizer {
         if (memory.size() > n && memory.get(n) != null)
             return memory.get(n);
 
-        if (memory.size() < n + 1){
-            while (memory.size() < n + 1)
-                memory.add(null);
-        }
+        while (memory.size() < n + 1)
+            memory.add(null);
 
         if (n == 0 || n == 1){
             memory.set(n, 1L);
