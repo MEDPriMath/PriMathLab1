@@ -8,41 +8,6 @@ import java.util.List;
 
 public class FibonacciMinimizer implements Minimizer {
 
-    /**
-     * This class makes process of swap and calculating easier
-     */
-    private class Point{
-        private Double x;
-        private Double value;
-        private final Oracle oracle;
-
-        public Point(Double x, Double value, Oracle oracle){
-            this.x = x;
-            this.value = value;
-            this.oracle = oracle;
-        }
-
-        public Point(double x, Oracle oracle){
-            this.x = x;
-            this.oracle = oracle;
-        }
-
-        public Double getX() {
-            return x;
-        }
-
-        public Double getValue() {
-            if (value == null)
-                value = oracle.askValue(x);
-            return value;
-        }
-
-        public void setX(double x){
-            this.x = x;
-            value = null;
-        }
-    }
-
     @Override
     public Interval minimize(Oracle oracle, double epsilon, double a, double b) {
         int n = 0;
@@ -95,7 +60,7 @@ public class FibonacciMinimizer implements Minimizer {
         return new Interval(a, b);
     }
 
-    private static final ArrayList<Integer> fibMeme = new ArrayList<>(List.of(1, 1));
+    private static final ArrayList<Long> fibMeme = new ArrayList<>(List.of(1L, 1L));
     /**
      * Return nth fibonacci number
      * n = 0; fib = 1
