@@ -100,7 +100,7 @@ public class FibonacciMinimizer implements Minimizer {
             throw new IllegalArgumentException("Incorrect n for Fibonacci number");
         }
 
-        for (int i = fibMeme.size(); i < n; i++) {
+        for (int i = fibMeme.size(); i <= n; i++) {
             fibMeme.add(fibMeme.get(i - 2) + fibMeme.get(i - 1));
         }
 
