@@ -37,7 +37,7 @@ public class CSVReportMain {
             Path.of("report", minimizer.getClass().getSimpleName()).toFile().mkdir();
 
             CSVTable lenTable = new CSVTable(Arrays.asList("index", "length"));
-            CSVTable abTable = new CSVTable(Arrays.asList("index", "length"));
+            CSVTable abTable = new CSVTable(Arrays.asList("index", "a", "b"));
 
             for (int i = 1; i <= lastIntervalList.size(); i++) {
                 Interval interval = lastIntervalList.get(i - 1);
