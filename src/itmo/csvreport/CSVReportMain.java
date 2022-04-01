@@ -46,7 +46,7 @@ public class CSVReportMain {
                 abTable.addLine(String.valueOf(i), String.valueOf(interval.a), String.valueOf(interval.b));
 
 
-                csvTable.addElements(i - 1, j, String.valueOf(interval.length()));
+                csvTable.setElement(i - 1, j, String.valueOf(interval.length()));
             }
 
             FileWriter lengthFile = new FileWriter(Path.of("report", minimizer.getClass().getSimpleName(), "len.csv").toFile());

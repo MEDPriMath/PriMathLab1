@@ -17,42 +17,33 @@ public class CSVTable {
     }
 
     public void addLine(String... strings){
+        if (strings.length > header.size())
+            throw new ArrayIndexOutOfBoundsException();
+
         lines.add(Arrays.asList(strings));
     }
 
     public void setLine(int index, String... strings){
+        if (strings.length > header.size())
+            throw new ArrayIndexOutOfBoundsException();
+
         while (lines.size() <= index)
             lines.add(null);
         lines.set(index, Arrays.asList(strings));
     }
 
-    public void addElements(int index, String... strings){
-        while (lines.size() <= index)
-            lines.add(null);
-        List<String> newLine = new ArrayList<>();
-        if (lines.get(index) == null){
-            newLine = new ArrayList<>();
-        } else {
-            newLine = new ArrayList<>(lines.get(index));
-        }
-        newLine.addAll(List.of(strings));
-        lines.set(index, newLine);
-    }
-
-    public void addElements(int indexRow, int indexCol, String... strings){
+    public void setElement(int indexRow, int indexCol, String string){
         while (lines.size() <= indexRow)
             lines.add(null);
-        List<String> newLine = new ArrayList<>();
-        if (lines.get(indexRow) == null){
-            newLine = new ArrayList<>();
-        } else {
-            newLine = new ArrayList<>(lines.get(indexRow));
-        }
 
-        while (newLine.size() < indexCol)
+        if (indexCol >= header.size())
+            throw new ArrayIndexOutOfBoundsException();
+
+        List<String> newLine = new ArrayList<>(lines.get(indexRow));
+        while (newLine.size() <= indexCol)
             newLine.add(null);
 
-        newLine.addAll(indexCol, List.of(strings));
+        newLine.set(indexCol, string);
         lines.set(indexRow, newLine);
     }
 
@@ -60,12 +51,12 @@ public class CSVTable {
         this.delimiter = delimiter;
     }
 
-    public List<String> getHeader() {
-        return header;
-    }
-
     public void setHeader(List<String> header) {
         this.header = header;
+    }
+
+    public List<String> getHeader() {
+        return header;
     }
 
     public String toCSV(){
